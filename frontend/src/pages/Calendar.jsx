@@ -18,14 +18,41 @@ const Calendar = () => {
   }, [week]);
 
   return (
-    <div>
-      <h2>Team Calendar</h2>
-      <button onClick={() => setWeek('current')}>Current Week</button>
-      <button onClick={() => setWeek('next')}>Next Week</button>
-      <ul>
-        {leaves.map((l, i) => <li key={i}>{l.employee_name} - {l.leave_type} - {l.start_date} to {l.end_date}</li>)}
-      </ul>
-    </div>
+    <main className="page-shell panel-page">
+      <div className="page-header">
+        <div>
+          <h2>Team Calendar</h2>
+          <p>See upcoming approved leave for the current and next week.</p>
+        </div>
+        <div className="toolbar">
+          <button className="button-secondary" onClick={() => setWeek('current')}>Current Week</button>
+          <button className="button-secondary" onClick={() => setWeek('next')}>Next Week</button>
+        </div>
+      </div>
+
+      <div className="card">
+        <div className="table-wrapper">
+          <table className="table">
+            <thead>
+              <tr>
+                <th>Employee</th>
+                <th>Type</th>
+                <th>Dates</th>
+              </tr>
+            </thead>
+            <tbody>
+              {leaves.map((l, i) => (
+                <tr key={i}>
+                  <td>{l.employee_name}</td>
+                  <td>{l.leave_type}</td>
+                  <td>{l.start_date} to {l.end_date}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </main>
   );
 };
 

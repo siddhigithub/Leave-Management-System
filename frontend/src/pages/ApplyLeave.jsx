@@ -28,28 +28,38 @@ const ApplyLeave = () => {
       await api.applyLeave(form);
       navigate('/dashboard');
     } catch (error) {
-      alert('Failed to apply');
+      const message = error.response?.data?.error || error.message || 'Failed to apply';
+      alert(message);
+      console.error('Apply leave error:', error);
     }
   };
 
   return (
-    <div>
-      <h2>Apply Leave</h2>
-      <form onSubmit={handleSubmit}>
-        <select value={form.leave_type_id} onChange={(e) => setForm({ ...form, leave_type_id: e.target.value })} required>
-          <option value="">Select Leave Type</option>
-          {leaveTypes.map(t => <option key={t.id} value={t.id}>{t.name}</option>)}
-        </select>
-        <input type="date" value={form.start_date} onChange={(e) => setForm({ ...form, start_date: e.target.value })} required />
-        <input type="date" value={form.end_date} onChange={(e) => setForm({ ...form, end_date: e.target.value })} required />
-        <input type="text" value={form.reason} onChange={(e) => setForm({ ...form, reason: e.target.value })} placeholder="Reason" required />
-        <select value={form.manager_id} onChange={(e) => setForm({ ...form, manager_id: e.target.value })} required>
-          <option value="">Select Manager</option>
-          {managers.map(m => <option key={m.id} value={m.id}>{m.name}</option>)}
-        </select>
-        <button type="submit">Apply</button>
-      </form>
-    </div>
+    <main className="page-shell form-page">
+      <div className="page-header">
+        <div>
+          <h2>Apply Leave</h2>
+          <p>Submit your leave request and notify your manager.</p>
+        </div>
+      </div>
+
+      <div className="form-card">
+        <form className="form-grid" onSubmit={handleSubmit}>
+          <select value={form.leave_type_id} onChange={(e) => setForm({ ...form, leave_type_id: e.target.value })} required>
+            <option value="">Select Leave Type</option>
+            {leaveTypes.map(t => <option key={t.id} value={t.id}>{t.name}</option>)}
+          </select>
+          <input type="date" value={form.start_date} onChange={(e) => setForm({ ...form, start_date: e.target.value })} required />
+          <input type="date" value={form.end_date} onChange={(e) => setForm({ ...form, end_date: e.target.value })} required />
+          <input type="text" value={form.reason} onChange={(e) => setForm({ ...form, reason: e.target.value })} placeholder="Reason" required />
+          <select value={form.manager_id} onChange={(e) => setForm({ ...form, manager_id: e.target.value })} required>
+            <option value="">Select Manager</option>
+            {managers.map(m => <option key={m.id} value={m.id}>{m.name}</option>)}
+          </select>
+          <button className="button" type="submit">Apply</button>
+        </form>
+      </div>
+    </main>
   );
 };
 

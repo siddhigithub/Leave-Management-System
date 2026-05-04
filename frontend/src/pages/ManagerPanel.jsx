@@ -27,18 +27,32 @@ const ManagerPanel = () => {
   };
 
   return (
-    <div>
-      <h2>Manager Panel</h2>
-      <ul>
+    <main className="page-shell panel-page">
+      <div className="page-header">
+        <div>
+          <h2>Manager Panel</h2>
+          <p>Review pending leave requests and provide feedback.</p>
+        </div>
+      </div>
+
+      <ul className="request-list">
         {requests.map((r) => (
-          <li key={r.id}>
-            {r.employee_name} - {r.leave_type} - {r.start_date} to {r.end_date}
-            <button onClick={() => handleAction(r.id, 'APPROVE')}>Approve</button>
-            <button onClick={() => handleAction(r.id, 'REJECT')}>Reject</button>
+          <li key={r.id} className="request-row">
+            <div className="request-item">
+              <div>
+                <strong>{r.employee_name}</strong>
+                <p>{r.leave_type} • {r.start_date} to {r.end_date}</p>
+              </div>
+              <div className="request-actions">
+                <button className="button" onClick={() => handleAction(r.id, 'APPROVE')}>Approve</button>
+                <button className="button-secondary" onClick={() => handleAction(r.id, 'REJECT')}>Reject</button>
+              </div>
+            </div>
+            <p>{r.reason}</p>
           </li>
         ))}
       </ul>
-    </div>
+    </main>
   );
 };
 

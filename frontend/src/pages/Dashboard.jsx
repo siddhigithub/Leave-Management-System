@@ -22,24 +22,67 @@ const Dashboard = () => {
   }, []);
 
   return (
-    <div>
-      <h2>Dashboard</h2>
-      <p>Welcome, {user?.name}</p>
-      <button onClick={logout}>Logout</button>
-      <Link to="/apply-leave">Apply Leave</Link>
-      {user?.role === 'MANAGER' && <Link to="/manager">Manager Panel</Link>}
-      <Link to="/calendar">Calendar</Link>
+    <main className="page-shell dashboard-page">
+      <div className="page-header">
+        <div>
+          <h2>Dashboard</h2>
+          <p>Welcome, {user?.name}</p>
+        </div>
+        <div className="toolbar">
+          <button className="button" onClick={logout}>Logout</button>
+          <Link className="button-secondary" to="/apply-leave">Apply Leave</Link>
+          <Link className="button-secondary" to="/calendar">Calendar</Link>
+          {user?.role === 'MANAGER' && <Link className="button-secondary" to="/manager">Manager Panel</Link>}
+        </div>
+      </div>
 
-      <h3>Leave Balances</h3>
-      <ul>
-        {balances.map((b, i) => <li key={i}>{b.name}: {b.remaining_days}</li>)}
-      </ul>
+      {user?.role === 'ADMIN' && (
+        <section className="admin-actions">
+          <div className="card">
+            <h3>Admin Controls</h3>
+            <p>Use admin tools to manage users, leave types, and holidays.</p>
+          </div>
+          <div className="card">
+            <h3>Reports</h3>
+            <p>Check leave reports and system-wide status.</p>
+          </div>
+        </section>
+      )}
 
-      <h3>Leave History</h3>
-      <ul>
-        {history.map((h, i) => <li key={i}>{h.leave_type} - {h.start_date} to {h.end_date} - {h.status}</li>)}
-      </ul>
-    </div>
+      <section className="card-grid">
+        {balances.map((balance) => (
+          <div className="card" key={balance.name}>
+            <h3>{balance.name}</h3>
+            <p>Remaining</p>
+            <p><strong>{balance.remaining_days}</strong></p>
+          </div>
+        ))}
+      </section>
+
+      <section className="card">
+        <h3>Leave History</h3>
+        <div className="table-wrapper">
+          <table className="table">
+            <thead>
+              <tr>
+                <th>Type</th>
+                <th>Dates</th>
+                <th>Status</th>
+              </tr>
+            </thead>
+            <tbody>
+              {history.map((h, i) => (
+                <tr key={i}>
+                  <td>{h.leave_type}</td>
+                  <td>{h.start_date} → {h.end_date}</td>
+                  <td>{h.status}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </section>
+    </main>
   );
 };
 

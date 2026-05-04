@@ -2,7 +2,7 @@ const express = require('express');
 const cors = require('cors');
 const dotenv = require('dotenv');
 
-dotenv.config();
+dotenv.config({ override: true });
 
 const app = express();
 
@@ -30,6 +30,6 @@ app.use('/api/calendar', calendarRoutes);
 app.use('/api/leave-types', leaveTypesRoutes);
 app.use('/api/managers', managersRoutes);
 
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT || 3001;
 
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
